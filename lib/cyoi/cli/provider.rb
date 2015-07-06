@@ -67,6 +67,7 @@ class Cyoi::Cli::Provider
       menu.choice("AWS") { "aws" }
       menu.choice("OpenStack") { "openstack" }
       menu.choice("vSphere") { "vsphere" }
+      menu.choice("Cloudstack") { "cloudstack" }
     end
     save_settings!
   end

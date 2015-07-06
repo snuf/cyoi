@@ -85,6 +85,21 @@ class Cyoi::Cli::AutoDetection::AutoDetectionFog
           "vsphere_expected_pubkey_hash" => profile[:vsphere_expected_pubkey_hash]
         }
       end
+      if profile[:cloudstack_api_key]
+        choice = {
+          "name" => "cloudstack",
+          "provider" => "Cloudstack",
+          "cloudstack_api_key" => profile[:cloudstack_api_key],
+          "cloudstack_secret_access_key" => profile[:cloudstack_secret_access_key],
+          # "cloudstack_zone" => profile[:cloudstack_zone],
+          "cloudstack_host" => profile[:cloudstack_host],
+          "cloudstack_path" => profile[:cloudstack_path],
+          "cloudstack_port" => profile[:cloudstack_port],
+          "cloudstack_scheme" => profile[:cloudstack_scheme]
+        }
+        choice["cloudstack_zone"] = profile[:cloudstack_zone] if profile[:cloudstack_zone]
+        fog_choices["Cloudstack (#{profile_name})"] = choice
+      end
     end
     fog_choices
   end

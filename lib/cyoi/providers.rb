@@ -27,6 +27,11 @@ module Cyoi::Providers
         require "cyoi/providers/clients/vsphere_provider_client"
         Cyoi::Providers::Clients::VsphereProviderClient.new(attributes)
       end
+    when :cloudstack
+      @cloudstack_provider_client ||= begin
+        require "cyoi/providers/clients/cloudstack_provider_client"
+        Cyoi::Providers::Clients::CloudstackProviderClient.new(attributes)
+      end
     else
       nil
     end
