@@ -27,7 +27,8 @@ class Cyoi::Cli::KeyPair::KeyPairCliCloudstack
 
   def valid?
     attributes["name"] && attributes["fingerprint"] && attributes["private_key"] &&
-      provider_client.valid_key_pair_fingerprint?(key_pair_name, attributes.fingerprint)
+      provider_client.list_ssh_key_pairs.select {|pair| pair['name'] == "key_pair_name" }
+      # provider_client.valid_key_pair_fingerprint?(key_pair_name, attributes.fingerprint)
   end
 
   def display_confirmation
@@ -39,16 +40,18 @@ class Cyoi::Cli::KeyPair::KeyPairCliCloudstack
     attributes.name
   end
 
-  protected
   def destroy_existing_key_pair
-    provider_client.delete_key_pair_if_exists(key_pair_name)
+    if provider_client.list_ssh_key_pairs
+      provider_client.delete_ssh_key_pair(key_pair_name)
+    end
   end
 
   # provisions key pair from AWS and returns fog object KeyPair
   def provision_key_pair
-    if key_pair = provider_client.create_key_pair(key_pair_name)
-      attributes["fingerprint"] = key_pair.fingerprint
-      attributes["private_key"] = key_pair.private_key
+    # .select {|pair| pair['name'] == "key_pair_name" }
+    if key_pair = provider_client.create_ssh_key_pair(key_pair_name)
+      attributes["fingerprint"] = key_pair["fingerprint"]
+      attributes["private_key"] = key_pair["privatekey"]
     end
   end
 end

@@ -31,4 +31,21 @@ class Cyoi::Providers::Clients::CloudstackProviderClient < Cyoi::Providers::Clie
   def associatepublicip(vpcid)
   	fog_compute.associate_ip_address("vpcid" => vpcid)
   end
+
+  def ip_permissions(sg)
+    sg.ip_permissions
+  end
+
+  def list_ssh_key_pairs
+    fog_compute.list_ssh_key_pairs["listsshkeypairsresponse"]
+    # ["listsshkeypairsresponse"]["keypair"]
+  end
+
+  def create_ssh_key_pair(name)
+    fog_compute.create_ssh_key_pair(name)["createsshkeypairresponse"]["keypair"]
+  end
+
+  def delete_ssh_key_pair(name)
+     fog_compute.delete_ssh_key_pair(name)["deletesshkeypairresponse"]
+  end
 end

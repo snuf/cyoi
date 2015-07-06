@@ -12,6 +12,7 @@ class Cyoi::Cli::Addresses::AddressCliCloudstack
   end
 
   def perform_and_return_attributes
+    # add zone awareness
     unless valid_address?
       if networks
         if vpc = select_vpc
